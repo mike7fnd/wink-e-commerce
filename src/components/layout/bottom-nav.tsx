@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -28,7 +29,7 @@ export function BottomNav() {
               isActive ? "text-primary" : "text-muted-foreground"
             )}
           >
-            <item.icon className="h-6 w-6" />
+            <item.icon className="h-7 w-7" strokeWidth={1.5} />
             <span>{item.label}</span>
           </Link>
         );
