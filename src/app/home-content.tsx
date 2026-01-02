@@ -103,10 +103,9 @@ export function HomeContent() {
               >
                 <div
                   className="relative h-10 w-10"
-                  style={activeTab === 'shop' ? { filter: 'drop-shadow(0 0 0.5rem #facc15)' } : {}}
                 >
                    <Image
-                    src="https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-DXDecT3Ip0rCJy8HyeBzAE9HvaqWDl.png"
+                    src="https://image2url.com/r2/default/images/1767355724970-94a23b61-9566-4738-b2a1-e0e1a7997053.png"
                     alt="Shop Icon"
                     width={40}
                     height={40}
@@ -121,10 +120,9 @@ export function HomeContent() {
               >
                 <div
                   className="relative h-10 w-10"
-                  style={activeTab === 'stores' ? { filter: 'drop-shadow(0 0 0.5rem #facc15)' } : {}}
                 >
                   <Image
-                    src="https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-l7EwBvYlsaQloF9UbdO2yIJVmdQLuK.png"
+                    src="https://image2url.com/r2/default/images/1767356315406-b60c97a2-04ce-4137-8a55-6d1a8f51fef2.png"
                     alt="Stores Icon"
                     width={40}
                     height={40}
@@ -139,10 +137,9 @@ export function HomeContent() {
               >
                 <div
                   className="relative h-10 w-10 flex items-center justify-center"
-                  style={activeTab === 'deals' ? { filter: 'drop-shadow(0 0 0.5rem #facc15)' } : {}}
                 >
                   <Image
-                    src="https://www.thiings.co/_next/image?url=https%3A%2F%2Flftz25oez4aqbxpq.public.blob.vercel-storage.com%2Fimage-c12bJfwU3bGXSu17QkqHYr7BSV5RKE.png&w=500&q=75"
+                    src="https://image2url.com/r2/default/images/1767356441624-93799530-2fc0-474e-8dea-661b25e57bf4.png"
                     alt="Deals Icon"
                     width={40}
                     height={40}

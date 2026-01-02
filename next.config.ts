@@ -39,6 +39,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.thiings.co',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image2url.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
