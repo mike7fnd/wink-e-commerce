@@ -1,4 +1,4 @@
-# **App Name**: Wink E-Commerce
+# **App Name**: E-MOORM
 
 ## Core Features:
 
