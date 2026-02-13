@@ -71,6 +71,10 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      shadows: {
+        custom: '0px 5px 15px 0px rgba(0, 0, 0, 0.15)',
+        lg: '0px 5px 15px 0px rgba(0, 0, 0, 0.15)',
+      },
       keyframes: {
         'accordion-down': {
           from: {
