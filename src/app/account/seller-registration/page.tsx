@@ -103,21 +103,21 @@ export default function SellerRegistrationPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
-            <Card className="border-primary/20 bg-primary/5">
+            <Card className="border-primary/20 bg-primary/5 shadow-card-shadow">
               <CardContent className="p-4 flex flex-col items-center text-center gap-2">
                 <Store className="h-8 w-8 text-primary" />
                 <p className="text-xs font-semibold uppercase">Your Shop</p>
                 <p className="text-[10px] text-muted-foreground leading-tight">Create a unique identity for your brand.</p>
               </CardContent>
             </Card>
-            <Card className="border-primary/20 bg-primary/5">
+            <Card className="border-primary/20 bg-primary/5 shadow-card-shadow">
               <CardContent className="p-4 flex flex-col items-center text-center gap-2">
                 <ShoppingBag className="h-8 w-8 text-primary" />
                 <p className="text-xs font-semibold uppercase">List Products</p>
                 <p className="text-[10px] text-muted-foreground leading-tight">Reach thousands of customers instantly.</p>
               </CardContent>
             </Card>
-            <Card className="border-primary/20 bg-primary/5">
+            <Card className="border-primary/20 bg-primary/5 shadow-card-shadow">
               <CardContent className="p-4 flex flex-col items-center text-center gap-2">
                 <Truck className="h-8 w-8 text-primary" />
                 <p className="text-xs font-semibold uppercase">Grow Fast</p>

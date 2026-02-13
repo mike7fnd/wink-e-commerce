@@ -74,7 +74,7 @@ export default {
       boxShadow: {
         custom: '0px 5px 15px 0px rgba(0, 0, 0, 0.15)',
         lg: '0px 5px 15px 0px rgba(0, 0, 0, 0.15)',
-        'card-shadow': '0 0 4px rgba(17, 17, 26, 0.04), 0 0 12px rgba(17, 17, 26, 0.06), 0 0 28px rgba(17, 17, 26, 0.08)',
+        'card-shadow': '0 0 6px rgba(17, 17, 26, 0.02), 0 0 20px rgba(17, 17, 26, 0.03), 0 0 48px rgba(17, 17, 26, 0.04)',
       },
       keyframes: {
         'accordion-down': {

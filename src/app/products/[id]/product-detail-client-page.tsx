@@ -212,7 +212,7 @@ export function ProductDetailClientPage({ product, reviewSummary, similarProduct
                 </div>
 
                 {product.isAuction && product.bidEndTime ? (
-                  <Card className="my-4 bg-accent/50 border-primary/20">
+                  <Card className="my-4 bg-accent/50 border-primary/20 shadow-card-shadow">
                     <CardContent className="p-4 space-y-2">
                       <div className="flex justify-between items-baseline">
                         <span className="text-muted-foreground">Current Bid</span>

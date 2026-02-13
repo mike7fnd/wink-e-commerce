@@ -62,7 +62,7 @@ function LoginForm({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
   };
 
   return (
-    <Card className="max-w-md mx-auto rounded-[30px] shadow-xl">
+    <Card className="max-w-md mx-auto rounded-[30px] shadow-card-shadow">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
         <p className="text-muted-foreground text-sm">Login to your account</p>
@@ -162,7 +162,7 @@ function SignUpForm({ onSwitchToLogin }: { onSwitchToLogin: () => void }) {
 
   if (success) {
     return (
-      <Card className="max-w-md mx-auto rounded-[30px] shadow-xl">
+      <Card className="max-w-md mx-auto rounded-[30px] shadow-card-shadow">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Check Your Email</CardTitle>
         </CardHeader>
@@ -180,7 +180,7 @@ function SignUpForm({ onSwitchToLogin }: { onSwitchToLogin: () => void }) {
   }
 
   return (
-    <Card className="max-w-md mx-auto rounded-[30px] shadow-xl">
+    <Card className="max-w-md mx-auto rounded-[30px] shadow-card-shadow">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
         <p className="text-muted-foreground text-sm">Sign up for a new account</p>
@@ -456,7 +456,7 @@ export default function AccountPage() {
         </div>
 
         <div className="container mx-auto px-4 pt-0 md:pt-8 relative">
-            <Card className="max-w-md mx-auto rounded-[30px] shadow-xl">
+            <Card className="max-w-md mx-auto rounded-[30px] shadow-card-shadow">
                 <CardContent className="pt-6">
                     <div className="flex flex-col items-center text-center">
                         <input
@@ -480,7 +480,7 @@ export default function AccountPage() {
                 </CardContent>
             </Card>
 
-            <Card className="max-w-md mx-auto rounded-[30px] shadow-xl mt-4">
+            <Card className="max-w-md mx-auto rounded-[30px] shadow-card-shadow mt-4">
                 <CardHeader>
                     <div className="flex justify-between items-center">
                         <CardTitle className="text-lg">My Orders</CardTitle>
@@ -510,7 +510,7 @@ export default function AccountPage() {
 
             <div className="max-w-md mx-auto grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
                 <Link href={hasShop ? "/account/my-shop" : "/account/seller-registration"}>
-                    <Card className="hover:bg-accent transition-colors h-full">
+                    <Card className="hover:bg-accent transition-colors h-full shadow-card-shadow">
                         <CardContent className="p-4 flex flex-col items-center justify-center text-center h-full">
                            <Image src="https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-kgYMsaYJpFuQ4XMNy0GYQ2zmrWOuJz.png" alt="Be a Seller" width={100} height={100} />
                            <p className="font-semibold text-sm mt-2">{hasShop ? 'My Shop' : 'Be a Seller'}</p>
@@ -518,7 +518,7 @@ export default function AccountPage() {
                     </Card>
                 </Link>
                  <Link href="/account/vouchers">
-                    <Card className="hover:bg-accent transition-colors h-full">
+                    <Card className="hover:bg-accent transition-colors h-full shadow-card-shadow">
                         <CardContent className="p-4 flex flex-col items-center justify-center text-center h-full">
                            <Image src="https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-xPBxqYxnSi0VmK3ALnqKVxdTMKcII9.png" alt="My Vouchers" width={100} height={100} />
                            <p className="font-semibold text-sm mt-2">My Vouchers</p>
@@ -526,7 +526,7 @@ export default function AccountPage() {
                     </Card>
                 </Link>
                  <Link href="/account/help">
-                    <Card className="hover:bg-accent transition-colors h-full">
+                    <Card className="hover:bg-accent transition-colors h-full shadow-card-shadow">
                         <CardContent className="p-4 flex flex-col items-center justify-center text-center h-full">
                            <Image src="https://lftz25oez4aqbxpq.public.blob.vercel-storage.com/image-m3g6C1b2A0S8R9p2W6n4Q5Y7vX8Z2k.png" alt="Help Center" width={100} height={100} />
                            <p className="font-semibold text-sm mt-2">Help Center</p>

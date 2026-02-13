@@ -21,7 +21,7 @@ export default function VouchersPage() {
       <main className="container mx-auto px-4 pt-4 pb-24 md:pb-8">
         <div className="space-y-4">
             {mockVouchers.map(voucher => (
-                <Card key={voucher.id} className="overflow-hidden">
+                <Card key={voucher.id} className="overflow-hidden shadow-card-shadow">
                     <div className="flex">
                         <div className="bg-primary/10 flex flex-col items-center justify-center p-6 text-primary">
                             <Ticket className="w-10 h-10" />
