@@ -10,11 +10,15 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useUser } from '@/supabase/provider';
+import { getSupabaseClient } from '@/supabase/client';
 import { Store, ShoppingBag, Truck, CheckCircle2 } from 'lucide-react';
 
 export default function SellerRegistrationPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useUser();
+  const supabase = getSupabaseClient();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     shopName: '',
@@ -28,7 +32,7 @@ export default function SellerRegistrationPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -43,27 +47,49 @@ export default function SellerRegistrationPage() {
       return;
     }
 
-    // Simulate registration and save to localStorage
-    setTimeout(() => {
-      const profile = {
-        id: `shop_${Date.now()}`,
-        userId: 'user_1',
-        ...formData,
-        rating: 5.0,
-        followers: 0,
-        productCount: 0,
-        joinedDate: new Date().toISOString(),
-      };
-      localStorage.setItem('seller-profile', JSON.stringify(profile));
-      
+    if (!user?.id) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'You must be logged in to register as a seller.',
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      // Save seller profile to Supabase
+      const { data, error } = await supabase
+        .from('seller_profiles')
+        .insert({
+          user_id: user.id,
+          shop_name: formData.shopName,
+          shop_description: formData.shopDescription,
+          address: formData.businessAddress,
+          contact_phone: formData.phoneNumber,
+          is_verified: false,
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
       toast({
         title: 'Registration Successful!',
         description: 'Your shop has been created. Welcome to E-Moorm!',
       });
-      
+
       setIsLoading(false);
       router.push('/account/my-shop');
-    }, 1500);
+    } catch (error: any) {
+      console.error('Failed to register seller:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Registration Failed',
+        description: error.message || 'Failed to register your shop. Please try again.',
+      });
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -100,7 +126,7 @@ export default function SellerRegistrationPage() {
             </Card>
           </div>
 
-          <Card className="rounded-[30px] shadow-xl border-none">
+          <Card className="rounded-[30px] shadow-card-shadow border-none">
             <CardHeader>
               <CardTitle>Shop Details</CardTitle>
               <CardDescription>Tell us about your business to get started.</CardDescription>

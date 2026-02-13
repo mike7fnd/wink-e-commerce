@@ -255,33 +255,82 @@ export default function AccountPage() {
   const [avatarSrc, setAvatarSrc] = useState('https://picsum.photos/seed/user/100/100');
   const [hasShop, setHasShop] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const savedAvatar = localStorage.getItem('user-avatar');
-    if (savedAvatar) {
-      setAvatarSrc(savedAvatar);
-    }
+    const loadUserData = async () => {
+      if (!user?.id) {
+        setHasShop(false);
+        return;
+      }
 
-    const sellerProfile = localStorage.getItem('seller-profile');
-    if (sellerProfile) {
-      setHasShop(true);
-    }
-  }, []);
+      try {
+        setIsLoading(true);
+
+        // Load user profile with avatar
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('avatar_url')
+          .eq('id', user.id)
+          .single();
+
+        if (!profileError && profileData?.avatar_url) {
+          setAvatarSrc(profileData.avatar_url);
+        }
+
+        // Check if user has a seller profile
+        const { data: sellerData, error: sellerError } = await supabase
+          .from('seller_profiles')
+          .select('id')
+          .eq('user_id', user.id)
+          .single();
+
+        if (!sellerError && sellerData) {
+          setHasShop(true);
+        } else {
+          setHasShop(false);
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadUserData();
+  }, [user?.id, supabase]);
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
+    if (file && user?.id) {
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         const result = reader.result as string;
         setAvatarSrc(result);
-        localStorage.setItem('user-avatar', result);
-        window.dispatchEvent(new CustomEvent('avatar-updated', { detail: { newAvatar: result }}));
+
+        try {
+          // Update avatar in Supabase
+          const { error } = await supabase
+            .from('profiles')
+            .update({ avatar_url: result })
+            .eq('id', user.id);
+
+          if (error) throw error;
+
+          // Dispatch custom event for components listening
+          window.dispatchEvent(
+            new CustomEvent('avatar-updated', { detail: { newAvatar: result } })
+          );
+        } catch (error) {
+          console.error('Failed to update avatar:', error);
+          // Revert avatar change on error
+          setAvatarSrc('https://picsum.photos/seed/user/100/100');
+        }
       };
       reader.readAsDataURL(file);
     }

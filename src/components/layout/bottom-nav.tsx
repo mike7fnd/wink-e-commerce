@@ -7,6 +7,7 @@ import { Home, Heart, ShoppingCart, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useEffect, useState } from "react";
+import { useUser } from "@/supabase/provider";
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
@@ -17,35 +18,41 @@ const navItems = [
 
 export function BottomNav() {
   const pathname = usePathname();
+  const { user } = useUser();
   const [avatarSrc, setAvatarSrc] = useState('https://picsum.photos/seed/user/40/40');
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
-    const savedAvatar = localStorage.getItem('user-avatar');
-    if (savedAvatar) {
-      setAvatarSrc(savedAvatar);
-    }
-    
+
+    // Listen for avatar updates from account page
     const handleAvatarUpdate = (event: Event) => {
-        const customEvent = event as CustomEvent;
-        setAvatarSrc(customEvent.detail.newAvatar);
+      const customEvent = event as CustomEvent;
+      setAvatarSrc(customEvent.detail.newAvatar);
     };
 
     window.addEventListener('avatar-updated', handleAvatarUpdate);
-    
+
     return () => {
-        window.removeEventListener('avatar-updated', handleAvatarUpdate);
+      window.removeEventListener('avatar-updated', handleAvatarUpdate);
     };
   }, []);
 
-  const isActive = (href: string) => pathname === href || (href === "/account" && pathname.startsWith("/account"));
+  const isActive = (href: string) => pathname === href || (href === "/account" && pathname.startsWith("/account") && !pathname.startsWith("/account/my-shop"));
+
+  // Hide regular nav when on seller path
+  const isSellerPath = pathname.startsWith('/account/my-shop');
+  
+  if (isSellerPath) {
+    return null;
+  }
 
   if (!isClient) {
     return (
         <nav className={cn(
             "h-16 bg-background flex justify-around items-center shadow-[0_-2px_6px_rgba(0,0,0,0.06)]",
-            "pb-[env(safe-area-inset-bottom)]"
+            "safe-area-bottom",
+            "pb-2 md:pb-0"
         )}>
             {/* Render a skeleton or placeholder */}
         </nav>
@@ -55,7 +62,8 @@ export function BottomNav() {
   return (
     <nav className={cn(
         "h-16 bg-background flex justify-around items-center shadow-[0_-2px_6px_rgba(0,0,0,0.06)]",
-        "pb-[env(safe-area-inset-bottom)]"
+        "safe-area-bottom",
+        "pb-2 md:pb-0"
     )}>
       {navItems.map((item) => (
         <Link

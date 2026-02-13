@@ -2,25 +2,56 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { AccountHeader } from '@/components/layout/account-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Package, ShoppingCart, TrendingUp, Settings, MessageSquare, ExternalLink, Truck } from 'lucide-react';
+import { Plus, Package, ShoppingCart, TrendingUp, Settings, MessageSquare, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useUser } from '@/supabase/provider';
+import { sellerService, SellerProfile } from '@/supabase/services/seller';
 
-export default function MyShopPage() {
-  const [shopProfile, setShopProfile] = useState<any>(null);
+export default function SellerDashboardPage() {
+  const router = useRouter();
+  const { user, isLoading: userLoading } = useUser();
+  const [sellerProfile, setSellerProfile] = useState<SellerProfile | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const profile = localStorage.getItem('seller-profile');
-    if (profile) {
-      setShopProfile(JSON.parse(profile));
-    }
-  }, []);
+    const loadSellerProfile = async () => {
+      if (!user?.id) {
+        setIsLoading(false);
+        return;
+      }
 
-  if (!shopProfile) {
+      try {
+        const profile = await sellerService.getSellerProfile(user.id);
+        setSellerProfile(profile);
+      } catch (err) {
+        console.error('Failed to load seller profile:', err);
+        setError('Failed to load seller profile');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (!userLoading) {
+      loadSellerProfile();
+    }
+  }, [user?.id, userLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] p-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary"></div>
+        <p className="text-muted-foreground mt-4">Loading seller dashboard...</p>
+      </div>
+    );
+  }
+
+  if (!sellerProfile) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] p-4 text-center">
         <Package className="h-16 w-16 text-muted-foreground mb-4" />
@@ -40,6 +71,8 @@ export default function MyShopPage() {
     { label: 'Chat', value: '0', icon: MessageSquare },
   ];
 
+  const shopInitial = sellerProfile.shop_name?.charAt(0).toUpperCase() || 'S';
+
   return (
     <>
       <AccountHeader title="Seller Dashboard" />
@@ -47,28 +80,33 @@ export default function MyShopPage() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
           <div className="flex items-center gap-4">
             <Avatar className="h-16 w-16 border-2 border-primary">
-              <AvatarFallback>{shopProfile.shopName.charAt(0)}</AvatarFallback>
+              <AvatarImage src={sellerProfile.shop_logo} alt={sellerProfile.shop_name} />
+              <AvatarFallback>{shopInitial}</AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="text-2xl font-bold">{shopProfile.shopName}</h1>
-              <p className="text-sm text-muted-foreground">Member since {new Date(shopProfile.joinedDate).toLocaleDateString()}</p>
+              <h1 className="text-2xl font-bold">{sellerProfile.shop_name}</h1>
+              <p className="text-sm text-muted-foreground">
+                {sellerProfile.is_verified ? '✓ Verified Seller' : 'Pending Verification'}
+              </p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-col sm:flex-row">
             <Button variant="outline" size="sm" asChild className="rounded-full">
-              <Link href={`/stores/${shopProfile.id}`}>
-                View Store <ExternalLink className="ml-2 h-4 w-4" />
+              <Link href={`/account/my-shop/settings`}>
+                <Settings className="mr-2 h-4 w-4" /> Settings
               </Link>
             </Button>
-            <Button size="sm" className="rounded-full">
-              <Plus className="mr-2 h-4 w-4" /> Add Product
+            <Button size="sm" className="rounded-full" asChild>
+              <Link href="/account/my-shop/products">
+                <Plus className="mr-2 h-4 w-4" /> Add Product
+              </Link>
             </Button>
           </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {stats.map((stat, i) => (
-            <Card key={i} className="rounded-2xl border-none shadow-md">
+            <Card key={i} className="rounded-2xl border-none shadow-card-shadow">
               <CardContent className="p-4 flex flex-col items-center justify-center text-center">
                 <stat.icon className="h-5 w-5 text-primary mb-2" />
                 <p className="text-lg font-bold">{stat.value}</p>
@@ -78,55 +116,72 @@ export default function MyShopPage() {
           ))}
         </div>
 
-        <Tabs defaultValue="products" className="w-full">
-          <TabsList className="w-full justify-start bg-transparent border-b rounded-none h-auto p-0 mb-6">
-            <TabsTrigger value="products" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent pb-2 px-4">Products</TabsTrigger>
-            <TabsTrigger value="orders" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent pb-2 px-4">Orders</TabsTrigger>
-            <TabsTrigger value="settings" className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent pb-2 px-4">Settings</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="products">
-            <div className="text-center py-16 bg-muted/30 rounded-[30px] border-2 border-dashed">
-              <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold">No products yet</h3>
-              <p className="text-muted-foreground mb-6">Start your selling journey by adding your first product.</p>
-              <Button className="rounded-full">
-                <Plus className="mr-2 h-4 w-4" /> Add Product
-              </Button>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="orders">
-            <div className="text-center py-16 bg-muted/30 rounded-[30px] border-2 border-dashed">
-              <ShoppingCart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold">No orders yet</h3>
-              <p className="text-muted-foreground">Orders from your customers will appear here.</p>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="settings">
-            <Card className="rounded-3xl">
+        <div className="grid md:grid-cols-3 gap-4">
+          <Card className="rounded-[30px] shadow-card-shadow border-none cursor-pointer hover:shadow-lg transition-shadow" asChild>
+            <Link href="/account/my-shop/products">
               <CardHeader>
-                <CardTitle className="text-lg">Shop Settings</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Package className="h-5 w-5 text-primary" />
+                  Products
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between p-2 hover:bg-accent rounded-lg cursor-pointer">
-                  <div className="flex items-center gap-3">
-                    <Settings className="h-5 w-5 text-muted-foreground" />
-                    <span>Edit Shop Profile</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between p-2 hover:bg-accent rounded-lg cursor-pointer">
-                  <div className="flex items-center gap-3">
-                    <Truck className="h-5 w-5 text-muted-foreground" />
-                    <span>Shipping Options</span>
-                  </div>
-                </div>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">Manage your product listings</p>
+                <p className="text-2xl font-bold mt-2">0</p>
               </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </main>
-    </>
-  );
+            </Link>
+          </Card>
+
+          <Card className="rounded-[30px] shadow-card-shadow border-none cursor-pointer hover:shadow-lg transition-shadow" asChild>
+            <Link href="/account/my-shop/orders">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ShoppingCart className="h-5 w-5 text-primary" />
+                  Orders
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">View customer orders</p>
+                <p className="text-2xl font-bold mt-2">0</p>
+              </CardContent>
+            </Link>
+          </Card>
+
+          <Card className="rounded-[30px] shadow-card-shadow border-none cursor-pointer hover:shadow-lg transition-shadow" asChild>
+            <Link href="/account/my-shop/messages">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <MessageSquare className="h-5 w-5 text-primary" />
+                  Messages
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">Customer conversations</p>
+                <p className="text-2xl font-bold mt-2">0</p>
+              </CardContent>
+            </Link>
+          </Card>
+        </div>
+
+        <Card className="rounded-[30px] shadow-card-shadow border-none mt-8">
+          <CardHeader>
+            <CardTitle>Shop Details</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm text-muted-foreground">Shop Description</p>
+              <p className="text-base">{sellerProfile.shop_description || 'No description added yet'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Location</p>
+              <p className="text-base">
+                {sellerProfile.address && <>{sellerProfile.address}</>, {sellerProfile.city}, {sellerProfile.state} {sellerProfile.zip_code}</>
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Contact</p>
+              <p className="text-base">{sellerProfile.contact_phone || 'No phone added'}</p>
+            </div>
+          </CardContent>
+        </Card>
 }

@@ -80,7 +80,7 @@ CREATE TABLE seller_profiles (
   country TEXT,
   is_verified BOOLEAN DEFAULT false,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIME ZONE DEFAULT NOW()
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Enable Row Level Security (RLS)
@@ -142,3 +142,76 @@ CREATE POLICY "Users can create their own seller profile" ON seller_profiles
 
 CREATE POLICY "Users can update their own seller profile" ON seller_profiles
   FOR UPDATE USING (auth.uid() = user_id);
+
+-- Orders table
+CREATE TABLE orders (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  status TEXT DEFAULT 'pending',
+  total_amount DECIMAL(10, 2),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Order items table
+CREATE TABLE order_items (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  order_id UUID REFERENCES orders(id) ON DELETE CASCADE,
+  product_id TEXT NOT NULL,
+  quantity INTEGER DEFAULT 1,
+  price DECIMAL(10, 2),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Addresses table
+CREATE TABLE addresses (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  address_line_1 TEXT NOT NULL,
+  city TEXT NOT NULL,
+  province TEXT NOT NULL,
+  region TEXT NOT NULL,
+  zip TEXT NOT NULL,
+  is_default BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable RLS for orders, order_items, and addresses
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE addresses ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies for orders
+CREATE POLICY "Users can view their own orders" ON orders
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can create orders" ON orders
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own orders" ON orders
+  FOR UPDATE USING (auth.uid() = user_id);
+
+-- RLS Policies for order_items (allow reading through order_id)
+CREATE POLICY "Users can view order items for their orders" ON order_items
+  FOR SELECT USING (
+    order_id IN (
+      SELECT id FROM orders WHERE user_id = auth.uid()
+    )
+  );
+
+-- RLS Policies for addresses
+CREATE POLICY "Users can view their own addresses" ON addresses
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can add their own addresses" ON addresses
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own addresses" ON addresses
+  FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete their own addresses" ON addresses
+  FOR DELETE USING (auth.uid() = user_id);
+

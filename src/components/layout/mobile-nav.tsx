@@ -4,6 +4,7 @@
 import { useState, useEffect } from 'react';
 import { AuthBanner } from './auth-banner';
 import { BottomNav } from './bottom-nav';
+import { SellerNav } from './seller-nav';
 
 export function MobileNav() {
   const [isClient, setIsClient] = useState(false);
@@ -19,6 +20,7 @@ export function MobileNav() {
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-40">
       <AuthBanner />
+      <SellerNav />
       <BottomNav />
     </div>
   );

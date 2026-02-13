@@ -1,0 +1,59 @@
+{
+  "name": "E-Moorm E-Commerce",
+  "short_name": "E-Moorm",
+  "description": "A modern e-commerce experience for local Mindoro goods",
+  "start_url": "/",
+  "scope": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": [
+    "shopping",
+    "business"
+  ],
+  "shortcuts": [
+    {
+      "name": "View Products",
+      "description": "Browse our products",
+      "url": "/"
+    },
+    {
+      "name": "My Cart",
+      "description": "View your shopping cart",
+      "url": "/cart"
+    },
+    {
+      "name": "My Account",
+      "description": "Manage your account",
+      "url": "/account"
+    }
+  ]
+}
