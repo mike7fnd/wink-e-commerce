@@ -68,7 +68,7 @@ export function AddressForm({ address, onSave, onCancel }: AddressFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSave)} className="space-y-8">
-        <Card>
+        <Card className="shadow-card-shadow">
           <CardContent className="p-6 space-y-6">
             <div className="grid sm:grid-cols-2 gap-4">
               <FormField
@@ -98,9 +98,9 @@ export function AddressForm({ address, onSave, onCancel }: AddressFormProps) {
                 )}
               />
             </div>
-            
+
             <div className="grid sm:grid-cols-2 gap-4">
-                <FormField
+              <FormField
                 control={form.control}
                 name="region"
                 render={({ field }) => (
@@ -122,7 +122,7 @@ export function AddressForm({ address, onSave, onCancel }: AddressFormProps) {
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="province"
                 render={({ field }) => (
@@ -135,7 +135,7 @@ export function AddressForm({ address, onSave, onCancel }: AddressFormProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                         {filteredProvinces.map(province => (
+                        {filteredProvinces.map(province => (
                           <SelectItem key={province.key} value={province.key}>{province.name}</SelectItem>
                         ))}
                       </SelectContent>
@@ -147,7 +147,7 @@ export function AddressForm({ address, onSave, onCancel }: AddressFormProps) {
             </div>
 
             <div className="grid sm:grid-cols-2 gap-4">
-               <FormField
+              <FormField
                 control={form.control}
                 name="city"
                 render={({ field }) => (
@@ -169,7 +169,7 @@ export function AddressForm({ address, onSave, onCancel }: AddressFormProps) {
                   </FormItem>
                 )}
               />
-               <FormField
+              <FormField
                 control={form.control}
                 name="zip"
                 render={({ field }) => (
@@ -197,7 +197,7 @@ export function AddressForm({ address, onSave, onCancel }: AddressFormProps) {
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="isDefault"

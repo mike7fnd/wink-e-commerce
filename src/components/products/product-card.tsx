@@ -54,7 +54,7 @@ export function ProductCard({ product, showMoveToCart = false }: ProductCardProp
 
   return (
     <div className="group">
-      <div className="relative aspect-square rounded-[15px] overflow-hidden shadow-lg mb-2">
+      <div className="relative aspect-square rounded-[15px] overflow-hidden shadow-card-shadow mb-2">
         <Link href={`/products/${product.id}`} className="block h-full w-full">
           <Image
             src={product.image.src}
@@ -74,10 +74,10 @@ export function ProductCard({ product, showMoveToCart = false }: ProductCardProp
               </Badge>
               {product.bidEndTime && (
                 <Badge variant="secondary" className="h-6 px-2 bg-white/90 text-foreground shadow-sm">
-                  <CountdownTimer 
-                    endTime={product.bidEndTime} 
-                    showIcon={false} 
-                    suffix="left" 
+                  <CountdownTimer
+                    endTime={product.bidEndTime}
+                    showIcon={false}
+                    suffix="left"
                     className="text-foreground font-bold"
                   />
                 </Badge>
@@ -113,21 +113,21 @@ export function ProductCard({ product, showMoveToCart = false }: ProductCardProp
         ) : (
           <>
             {product.rating && (
-                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                    <span>{product.rating.toFixed(1)}</span>
-                </div>
+              <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                <span>{product.rating.toFixed(1)}</span>
+              </div>
             )}
             <p className="text-sm font-medium text-muted-foreground mt-0.5">
-                ₱{product.price.toFixed(2)}
+              ₱{product.price.toFixed(2)}
             </p>
           </>
         )}
       </div>
       {showMoveToCart && !product.isAuction && (
-        <Button 
-          variant="default" 
-          size="sm" 
+        <Button
+          variant="default"
+          size="sm"
           className="w-full mt-3 rounded-[30px]"
           onClick={handleMoveToCart}
         >

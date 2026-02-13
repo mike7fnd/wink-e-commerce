@@ -50,16 +50,16 @@ export function MoormyBot() {
   return (
     <div className="fixed bottom-20 right-4 z-50 md:bottom-8 md:right-8">
       {isOpen ? (
-        <Card className="w-80 h-[450px] flex flex-col shadow-2xl rounded-[30px] border-primary/20 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <Card className="w-80 h-[450px] flex flex-col shadow-card-shadow rounded-[30px] border-primary/20 overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
           <CardHeader className="bg-primary text-primary-foreground p-4 flex flex-row items-center justify-between space-y-0">
             <div className="flex items-center gap-2">
               <Bot className="h-5 w-5" />
               <CardTitle className="text-base font-bold">Moormy Bot</CardTitle>
             </div>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20 rounded-full" 
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20 rounded-full"
               onClick={() => setIsOpen(false)}
             >
               <X className="h-4 w-4" />
@@ -70,8 +70,8 @@ export function MoormyBot() {
               <div key={i} className={cn("flex", m.role === 'user' ? "justify-end" : "justify-start")}>
                 <div className={cn(
                   "max-w-[85%] rounded-[20px] px-4 py-2 text-sm shadow-sm",
-                  m.role === 'user' 
-                    ? "bg-primary text-primary-foreground rounded-tr-none" 
+                  m.role === 'user'
+                    ? "bg-primary text-primary-foreground rounded-tr-none"
                     : "bg-white text-foreground rounded-tl-none border"
                 )}>
                   {m.text}
@@ -88,9 +88,9 @@ export function MoormyBot() {
           </CardContent>
           <CardFooter className="p-3 border-t bg-background">
             <form className="flex w-full gap-2 items-center" onSubmit={(e) => { e.preventDefault(); handleSend(); }}>
-              <Input 
-                placeholder="Ask me anything..." 
-                value={inputValue} 
+              <Input
+                placeholder="Ask me anything..."
+                value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 className="flex-1 rounded-full h-10 bg-muted/50 border-none focus-visible:ring-primary"
               />
@@ -101,7 +101,7 @@ export function MoormyBot() {
           </CardFooter>
         </Card>
       ) : (
-        <Button 
+        <Button
           className="h-14 w-14 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all duration-200 p-0"
           onClick={() => setIsOpen(true)}
         >

@@ -32,7 +32,7 @@ const statusLabels: { [key: string]: string } = {
 
 export function OrderCard({ order }: OrderCardProps) {
   return (
-    <Card>
+    <Card className="shadow-card-shadow">
       <CardHeader className="flex flex-row justify-between items-center p-4">
         <p className="font-semibold text-sm">Order ID: {order.id}</p>
         <p className="text-sm text-primary font-medium">{statusLabels[order.status]}</p>
@@ -49,10 +49,10 @@ export function OrderCard({ order }: OrderCardProps) {
           Order Total: <span className="font-bold text-lg">₱{order.total.toFixed(2)}</span>
         </p>
         <div className="flex gap-2">
-            <Button variant="outline" className="rounded-[30px]">View Details</Button>
-            {order.status === 'to-pay' && <Button className="rounded-[30px]">Pay Now</Button>}
-            {order.status === 'to-receive' && <Button className="rounded-[30px]">Order Received</Button>}
-            {order.status === 'to-review' && <Button className="rounded-[30px]">Rate</Button>}
+          <Button variant="outline" className="rounded-[30px]">View Details</Button>
+          {order.status === 'to-pay' && <Button className="rounded-[30px]">Pay Now</Button>}
+          {order.status === 'to-receive' && <Button className="rounded-[30px]">Order Received</Button>}
+          {order.status === 'to-review' && <Button className="rounded-[30px]">Rate</Button>}
         </div>
       </CardFooter>
     </Card>

@@ -27,14 +27,14 @@ type AddressCardProps = {
 
 export function AddressCard({ address, onEdit, onDelete, onSetDefault }: AddressCardProps) {
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col shadow-card-shadow">
       <CardHeader>
         <CardTitle className="flex justify-between items-start">
           <span className="text-lg">{address.name}</span>
           {address.isDefault ? (
-             <Badge>
-                <Home className="mr-1.5 h-3 w-3" />
-                Default
+            <Badge>
+              <Home className="mr-1.5 h-3 w-3" />
+              Default
             </Badge>
           ) : (
             <div className="w-6 h-6"></div> // Placeholder for alignment
@@ -49,22 +49,22 @@ export function AddressCard({ address, onEdit, onDelete, onSetDefault }: Address
       </CardContent>
       <CardFooter className="flex justify-end gap-2">
         <Button variant="outline" size="sm" onClick={onEdit} className="rounded-[30px]">
-            <Edit className="mr-2 h-4 w-4" /> Edit
+          <Edit className="mr-2 h-4 w-4" /> Edit
         </Button>
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                    <MoreVertical className="h-4 w-4" />
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                {!address.isDefault && (
-                    <DropdownMenuItem onClick={onSetDefault}>Set as Default</DropdownMenuItem>
-                )}
-                <DropdownMenuItem onClick={onDelete} className="text-destructive focus:text-destructive">
-                    Delete
-                </DropdownMenuItem>
-            </DropdownMenuContent>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <MoreVertical className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {!address.isDefault && (
+              <DropdownMenuItem onClick={onSetDefault}>Set as Default</DropdownMenuItem>
+            )}
+            <DropdownMenuItem onClick={onDelete} className="text-destructive focus:text-destructive">
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
         </DropdownMenu>
       </CardFooter>
     </Card>
