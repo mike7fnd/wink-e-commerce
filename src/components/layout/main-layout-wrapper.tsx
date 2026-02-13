@@ -19,7 +19,7 @@ export function MainLayoutWrapper({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <div className={showNav ? isSellerPath ? "flex-1 pb-32 md:pb-0" : "flex-1 pb-32 md:pb-0" : "flex-1"}>{children}</div>
+      <div className={showNav ? isSellerPath ? "flex-1 pb-32 md:pb-0 safe-area-inset-x" : "flex-1 pb-32 md:pb-0 safe-area-inset-x" : "flex-1 safe-area-inset-x"}>{children}</div>
       {showNav && <MobileNav />}
     </>
   );
