@@ -1,43 +1,36 @@
-# Firebase to Supabase Migration - TODO List
+# Shadow Style Implementation TODO
 
-## Phase 1: Install Supabase dependencies
-- [x] Add @supabase/supabase-js to package.json
-- [x] Run npm install
+## Task
+Apply shadow style `box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;` across all system UI, especially in cards.
 
-## Phase 2: Create Supabase configuration and client
-- [x] Create src/supabase/config.ts - Supabase configuration with URL and anon key
-- [x] Create src/supabase/client.ts - Client-side Supabase initialization
-- [x] Create src/supabase/index.ts - Export all supabase modules
+## Plan
 
-## Phase 3: Create Supabase provider and hooks
-- [x] Create src/supabase/provider.tsx - SupabaseProvider component with useUser, useSession
-- [x] Create src/supabase/client-provider.tsx - Client-side provider wrapper
-- [x] Create src/supabase/hooks/use-collection.ts - For real-time collection subscriptions
-- [x] Create src/supabase/hooks/use-doc.ts - For real-time document subscriptions
-- [x] Create src/supabase/hooks/use-mutations.ts - For data mutations
+### Step 1: Update tailwind.config.ts
+- [ ] Add new custom shadow utility with the requested style
 
-## Phase 4: Create Supabase auth helpers
-- [x] Create src/supabase/auth.ts - Authentication methods
+### Step 2: Update Card component
+- [ ] src/components/ui/card.tsx - Replace shadow-lg with new custom shadow
 
-## Phase 5: Update app to use Supabase
-- [x] Update src/app/layout.tsx to use SupabaseProvider
-- [x] Create src/components/SupabaseErrorListener.tsx to handle Supabase errors
+### Step 3: Update UI Components
+- [ ] src/components/ui/button.tsx - Update shadow-lg classes
+- [ ] src/components/ui/dialog.tsx - Update shadow-lg
+- [ ] src/components/ui/sheet.tsx - Update shadow-lg
+- [ ] src/components/ui/dropdown-menu.tsx - Update shadow-lg and shadow-md
+- [ ] src/components/ui/popover.tsx - Update shadow-md
+- [ ] src/components/ui/select.tsx - Update shadow-md
+- [ ] src/components/ui/menubar.tsx - Update shadow-md
+- [ ] src/components/ui/tooltip.tsx - Update shadow-md
+- [ ] src/components/ui/toast.tsx - Update shadow-lg
+- [ ] src/components/ui/alert-dialog.tsx - Update shadow-lg
+- [ ] src/components/ui/header.tsx - Update shadow-lg
+- [ ] src/components/ui/chart.tsx - Update shadow-xl
+- [ ] src/components/ui/sidebar.tsx - Update shadow classes
 
-## Phase 6: Clean up (Optional)
-- [ ] Keep Firebase for reference or remove if not needed
+### Step 4: Update Business Components
+- [ ] src/components/stores/store-info-card.tsx - Update shadow-lg and shadow-xl
+- [ ] src/components/products/product-card.tsx - Update shadow-lg and shadow-sm
+- [ ] src/components/products/filters.tsx - Update shadow-sm
 
----
-
-## Migration Complete!
-
-The app has been successfully migrated from Firebase to Supabase. Here's a summary of what was done:
-
-1. **Installed Supabase dependencies** - Added @supabase/supabase-js package
-2. **Created Supabase configuration** - Set up config.ts with Supabase URL and anon key
-3. **Created Supabase client** - Initialized Supabase client
-4. **Created provider and hooks** - Built useUser, useSession, useCollection, useDoc, and useMutations hooks
-5. **Created auth helpers** - Built authentication methods for sign up, sign in, sign out
-6. **Updated app layout** - Added SupabaseClientProvider and SupabaseErrorListener
-7. **Created error listener** - Built SupabaseErrorListener for handling Supabase errors
-
-The Firebase files are still present in src/firebase/ but are no longer used. You can remove them if desired.
+### Step 5: Update Layout Components
+- [ ] src/components/layout/pull-to-refresh.tsx - Update shadow-lg
+- [ ] src/components/layout/header.tsx - Update shadow-lg

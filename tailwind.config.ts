@@ -1,4 +1,4 @@
-import type {Config} from 'tailwindcss';
+import type { Config } from 'tailwindcss';
 
 export default {
   darkMode: ['class'],
@@ -74,6 +74,7 @@ export default {
       shadows: {
         custom: '0px 5px 15px 0px rgba(0, 0, 0, 0.15)',
         lg: '0px 5px 15px 0px rgba(0, 0, 0, 0.15)',
+        'card-shadow': 'rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px',
       },
       keyframes: {
         'accordion-down': {
@@ -88,7 +89,7 @@ export default {
           from: {
             height: 'var(--radix-accordion-content-height)',
           },
-to: {
+          to: {
             height: '0',
           },
         },
